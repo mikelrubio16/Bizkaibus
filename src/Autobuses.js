@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react'
 import L from "leaflet";
 import "leaflet-gpx";
 import "leaflet/dist/leaflet.css";
-
+import { paradas } from './Paradas.js';
 
 export const Autobuses = () => {
 
@@ -64,80 +64,80 @@ export const Autobuses = () => {
     };
 
     const lineas = {
-        A3527I: [ //Bilbao-Bermeo autopista
-            { id: 806, name: "Deustuko Unibertsitatea", lat: 43.271045297221555, lng: -2.9412451962293837 },
-            { id: 3394, name: "Atxuri", lat: 43.3582827709362, lng: -2.8547008870006025 },
-            { id: 3395, name: "Lauaxeta", lat: 43.35681642985775, lng: -2.850547158110375 },
-            { id: 2001, name: "Trobika", lat: 43.35432475527525, lng: -2.846263374765127 },
-            { id: 3435, name: "Goietako plaza", lat: 43.35430570210384, lng: -2.8431694960561513 },
-            { id: 2080, name: "Trobika auzoa", lat: 43.358786603170145, lng: -2.8352895100381685 },
-            { id: 2081, name: "Elordui", lat: 43.36675385436272, lng: -2.8235371555235513 },
-            { id: 2082, name: "Larrauri", lat: 43.36732, lng: -2.81051 },
-            { id: 2251, name: "Bidebieta", lat: 43.37287, lng: -2.80191 },        
-            { id: 2252, name: "Emerando", lat: 43.38052, lng: -2.79034 },
-            { id: 2253, name: "Emerando Gane", lat: 43.38504, lng: -2.77797 },
-            { id: 2254, name: "Landane. Mañu", lat: 43.38828, lng: -2.77114 },
-            { id: 2255, name: "Arrizurieta Mañu", lat: 43.39325, lng: -2.77058 },
-            { id: 2256, name: "Elizalde Mañu", lat: 43.39940, lng: -2.75881 },
-            { id: 2257, name: "Ganekolanda Mañu", lat: 43.40505, lng: -2.76034 },
-            { id: 2258, name: "Itubizkar San Miguel", lat: 43.41300, lng: -2.75345 },
-            { id: 2259, name: "Iturrandiaga San Miguel", lat: 43.41692, lng: -2.74925 },
-            { id: 2261, name: "Udal Azoka", lat: 43.41964, lng: -2.72796 }
-          ],
-        A3527V : [ //Bermeo-Bilbao autopista
-            { id: 1976, name: "Lamera", lat: 43.41899584832548, lng: -2.7224527508367617},
-            { id: 2261, name: "Udal azoka", lat: 43.4196983488353, lng: -2.7279739853320786 },
-            { id: 2175, name: "Ametzaga", lat: 43.41986390689414, lng: -2.736919262573285 },
-            { id: 2176, name: "Iturrandiaga San Miguel", lat: 43.41708001555424, lng: -2.7491719755353716 },
-            { id: 2177, name: "Itubizkar. San Miguel", lat: 43.412219584298136, lng: -2.754298810498985 },
-            { id: 2178, name: "Ganekolanda Mañu", lat: 43.405031698251406, lng: -2.7605348257426963 },
-            { id: 2179, name: "Elizalde Mañu", lat: 43.399462908557, lng: -2.759002926767856 },
-            { id: 2180, name: "Arrizurieta Mañu", lat: 43.393459478187324, lng: -2.770804624505833 },
-            { id: 2181, name: "Landane Mañu", lat: 43.38828472261249, lng: -2.7712918772162434 },
-            { id: 2182, name: "Emerando Gane", lat: 43.38454436621202, lng: -2.7768233079910893 },
-            { id: 2183, name: "Emerando", lat: 43.380422989958014, lng: -2.790800864446651 },
-            { id: 2184, name: "Bidebieta", lat: 43.37296292363398, lng: -2.8020943411042123 },
-            { id: 2103, name: "Larrauri", lat: 43.367087670787434, lng: -2.8111807325529212 },
-            { id: 2081, name: "Elordui", lat: 43.366730405181215, lng: -2.823556479442899 },
-            { id: 2105, name: "Trobika auzoa", lat: 43.35684685143182, lng: -2.8382895118223086 },
-            { id: 3437, name: "Herri bide 11", lat: 43.3550481811355, lng: -2.8435525224532525 },
-            { id: 3438, name: "INEM", lat: 43.35532508752503, lng: -2.846700466600541 },
-            { id: 3396, name: "Lauaxeta", lat: 43.356918369977926, lng: -2.8504268521057607 },
-            { id: 3397, name: "Atxuri", lat: 43.35807428544508, lng: -2.85788838382915 },
-            { id: 128, name: "Deustuko Unibertsitatea", lat: 43.27092054218305, lng: -2.9415939670393443 },
-            { id: 168, name: "Museo Plaza", lat: 43.26609224606626, lng: -2.937432872851829 }
+        A3527I: [ // Bilbao-Bermeo autopista
+            paradas[806],
+            paradas[3394],
+            paradas[3395],
+            paradas[2001],
+            paradas[3435],
+            paradas[2080],
+            paradas[2081],
+            paradas[2082],
+            paradas[2251],
+            paradas[2252],
+            paradas[2253],
+            paradas[2254],
+            paradas[2255],
+            paradas[2256],
+            paradas[2257],
+            paradas[2258],
+            paradas[2259],
+            paradas[2261]
         ],
-        A3518I : [ //Bilbao-Bakio autopista
-            { id: 806, name: "Deustuko Unibertsitatea", lat: 43.271045297221555, lng: -2.9412451962293837 },
-            { id: 3394, name: "Atxuri", lat: 43.3582827709362, lng: -2.8547008870006025 },
-            { id: 3395, name: "Lauaxeta", lat: 43.35681642985775, lng: -2.850547158110375 },
-            { id: 2001, name: "Trobika", lat: 43.35432475527525, lng: -2.846263374765127 },
-            { id: 3435, name: "Goietako plaza", lat: 43.35430570210384, lng: -2.8431694960561513 },
-            { id: 2080, name: "Trobika auzoa", lat: 43.358786603170145, lng: -2.8352895100381685 },
-            { id: 2081, name: "Elordui", lat: 43.36675385436272, lng: -2.8235371555235513 },
-            { id: 2082, name: "Larrauri", lat: 43.36732, lng: -2.81051 },
-            { id: 2251, name: "Bidebieta", lat: 43.37287, lng: -2.80191 },
-            { id: 2084, name: "Ereñotzaga", lat: 43.38036, lng: -2.80122 },
-            { id: 2085, name: "Landabarrena", lat: 43.38905, lng: -2.79931 },
-            { id: 2086, name: "Goikolea", lat: 43.40403, lng: -2.81088 },
-            { id: 2088, name: "Otsategi", lat: 43.41333, lng: -2.81368},
-            { id: 2089, name: "Egia-Frontoia", lat: 43.41812, lng: -2.81333},
-            { id: 2090, name: "Estankoalde (Romana)", lat: 43.42248, lng: -2.81397 },
-            { id: 2091, name: "Olaskoetxe (Irubide)", lat: 43.42712, lng: -2.81160 },
-            { id: 2092, name: "Bentalde", lat: 43.42918, lng: -2.80503 },
-            { id: 2352, name: "San Pelaio (Begiratokia/Mirador", lat: 43.43155, lng: -2.800145 }
+        A3527V: [ // Bermeo-Bilbao autopista
+            paradas[1976],
+            paradas[2261],
+            paradas[2175],
+            paradas[2176],
+            paradas[2177],
+            paradas[2178],
+            paradas[2179],
+            paradas[2180],
+            paradas[2181],
+            paradas[2182],
+            paradas[2183],
+            paradas[2184],
+            paradas[2103],
+            paradas[2081],
+            paradas[2105],
+            paradas[3437],
+            paradas[3438],
+            paradas[3396],
+            paradas[3397],
+            paradas[128],
+            paradas[168]
         ],
-        A3518V : [ //Bakio-BIlbao autopista
-            { id: 2184, name: "Bidebieta", lat: 43.37296292363398, lng: -2.8020943411042123 },
-            { id: 2103, name: "Larrauri", lat: 43.367087670787434, lng: -2.8111807325529212 },
-            { id: 2081, name: "Elordui", lat: 43.366730405181215, lng: -2.823556479442899 },
-            { id: 2105, name: "Trobika auzoa", lat: 43.35684685143182, lng: -2.8382895118223086 },
-            { id: 3437, name: "Herri bide 11", lat: 43.3550481811355, lng: -2.8435525224532525 },
-            { id: 3438, name: "INEM", lat: 43.35532508752503, lng: -2.846700466600541 },
-            { id: 3396, name: "Lauaxeta", lat: 43.356918369977926, lng: -2.8504268521057607 },
-            { id: 3397, name: "Atxuri", lat: 43.35807428544508, lng: -2.85788838382915 },
-            { id: 128, name: "Deustuko Unibertsitatea", lat: 43.27092054218305, lng: -2.9415939670393443 },
-            { id: 168, name: "Museo Plaza", lat: 43.26609224606626, lng: -2.937432872851829 }
+        A3518I: [ // Bilbao-Bakio autopista
+            paradas[806],
+            paradas[3394],
+            paradas[3395],
+            paradas[2001],
+            paradas[3435],
+            paradas[2080],
+            paradas[2081],
+            paradas[2082],
+            paradas[2251],
+            paradas[2084],
+            paradas[2085],
+            paradas[2086],
+            paradas[2088],
+            paradas[2089],
+            paradas[2090],
+            paradas[2091],
+            paradas[2092],
+            paradas[2352]
+        ],
+        A3518V: [ // Bakio-Bilbao autopista
+            paradas[2184],
+            paradas[2103],
+            paradas[2081],
+            paradas[2105],
+            paradas[3437],
+            paradas[3438],
+            paradas[3396],
+            paradas[3397],
+            paradas[128],
+            paradas[168]
         ]
     };
 
@@ -201,7 +201,7 @@ export const Autobuses = () => {
                 const track = e.target.getLayers()[0]._layers[e.target.getLayers()[0]._leaflet_id - 1]._latlngs;
                 var finalTrack = track;
                 if (selectedLinea.endsWith('I')) {
-                    // Si la línea seleccionada es la de IDA (A3527I), invertir el track
+                    // Si la línea seleccionada es la de IDA (termina en I el track), invertir el track
                     finalTrack = track.reverse();
                 }
                 setTrackPoints(finalTrack);
