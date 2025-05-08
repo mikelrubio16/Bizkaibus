@@ -1,0 +1,287 @@
+/* Estilos generales del banner */
+#banner {
+    background-color: #fff; /* Fondo blanco */
+    padding: 10px 0; /* Espaciado vertical */
+    border-bottom: 1px solid #ddd; /* Borde inferior sutil */
+  }
+  
+  /* Contenedor principal */
+  #heading .container {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Espacio entre logo y menú */
+    max-width: 1200px; /* Ancho máximo del contenedor */
+    margin: 0 auto; /* Centrar el contenedor */
+    padding: 0 20px; /* Espaciado horizontal */
+  }
+  
+  /* Logo de la Diputación Foral */
+  .logo-foru img {
+    height: 40px; /* Ajusta la altura según necesites */
+  }
+  
+  /* Contenedor del título del sitio */
+  .site-title {
+    margin-left: 20px; /* Espacio entre el logo foral y el logo de Bizkaibus */
+  }
+  
+  /* Logo de Bizkaibus */
+  .site-title a.logo {
+    display: block; /* Para poder aplicar estilos de bloque */
+    text-decoration: none; /* Quitar subrayado del enlace */
+  }
+  
+  .site-title a.default-logo {
+    background-image: url(https://www.bizkaia.eus/o/IYBBTBIC/images/bizkaia/logo_foru.png); /* Reemplaza con la ruta real del logo de Bizkaibus */
+    background-repeat: no-repeat;
+    background-position: left center;
+    text-indent: -9999px; /* Ocultar el texto alternativo */
+    width: 150px; /* Ajusta el ancho según el logo */
+    height: 66px; /* Ajusta la altura según el logo */
+    display: inline-block;
+  }
+  
+  /* Barra de navegación principal */
+  .navbar {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Botón del menú responsive (para pantallas pequeñas) */
+  .navbar-toggle {
+    background: transparent;
+    border: none;
+    color: #333; /* Color del texto del menú */
+    padding: 10px;
+    cursor: pointer;
+    /*display: none; /* Oculto por defecto en pantallas grandes */
+  }
+
+  @media (min-width: 768px) {
+    .navbar-toggle {
+      display: none;
+    }
+  }
+  
+  .navbar-toggle .bipoicon-menu {
+    font-size: 1.5em; /* Tamaño del icono del menú */
+    margin-left: 5px;
+  }
+  
+  .navbar-toggle .bipo_txtmenu {
+    margin-right: 5px;
+  }
+
+  .bipo_txtmenu {
+    /* Copia las propiedades relevantes de .bipo_estadomenu aquí */
+    /* Puedes usar las herramientas de desarrollador del navegador (F12)
+       para inspeccionar una palabra del menú (como LINEAK)
+       y ver qué estilos se aplican a la clase .bipo_estadomenu */
+    color: #fff; /* Ejemplo: copia el color */
+    font-size: 14px; /* Ejemplo: copia el tamaño */
+    font-weight: bold; /* Ejemplo: copia el peso de la fuente */
+    text-transform: uppercase; /* Añade esto para que también esté en mayúsculas */
+    letter-spacing: 0.5px; /* Ejemplo: copia el espaciado */
+    /* ... copia otras propiedades visuales si es necesario ... */
+  }
+  
+  
+  /* Menú principal (oculto en pantallas pequeñas) */
+  .slidemenu {
+    margin-left: auto; /* Empujar el menú a la derecha */
+  }
+  
+  .bipo-navbar-top-container nav#navbar-main {
+    /* Estilos para el menú principal */
+  }
+  
+  .navbar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+  }
+  @media (min-width: 768px) {
+    .navbar-nav .nav-item {
+      margin-left: 20px; /* Espacio entre los elementos del menú */
+    }
+  }
+
+  
+  .navbar-nav .nav-item:first-child {
+    margin-left: 0;
+  }
+  
+  .navbar-nav .nav-item a {
+    text-decoration: none;
+    color: #fff; /* Color de los enlaces del menú */
+    font-weight: bold;
+    padding: 10px 0;
+    display: block;
+  }
+  
+  .navbar-nav .nav-item a:hover {
+    color: #007bff; /* Color al pasar el ratón */
+  }
+
+  .navbar.navbar-expand-md {
+    justify-content: center;
+  }
+  
+  .bipo_estadomenu {
+    /* Estilos específicos para el span dentro del enlace del menú */
+    /* Aquí estarán las propiedades que dan estilo a LINEAK, GERALEKUAK, etc. */
+    /* Por ejemplo: */
+    color: #fff; /* Color del texto del menú */
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase; /* Las palabras del menú están en mayúsculas */
+    letter-spacing: 0.5px;
+    /* ... otras propiedades ... */
+  }
+  
+  /* Menú secundario (parte superior derecha) */
+  nav#navbar-top.navbar-arriba {
+    margin-left: 20px; /* Espacio entre el menú principal y el secundario */
+  }
+  
+  nav#navbar-top.navbar-arriba .navbar-nav {
+    /* Otros estilos para el menú secundario si es necesario */
+  }
+  
+  nav#navbar-top.navbar-arriba .navbar-nav .nav-item {
+    margin-left: 15px;
+  }
+  
+  nav#navbar-top.navbar-arriba .nav-item a {
+    color: #666;
+    font-size: 0.9em;
+  }
+  
+  nav#navbar-top.navbar-arriba .nav-item .bipoicon {
+    font-size: 0.9em;
+    margin-right: 5px;
+  }
+  
+  /* Desplegable de idioma */
+  .dropdown {
+    position: relative;
+  }
+  
+  .dropdown-toggle {
+    background: transparent;
+    border: none;
+    padding: 10px 0;
+    cursor: pointer;
+    color: #666;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+  }
+  
+  .dropdown-toggle abbr {
+    font-weight: bold;
+    margin-right: 5px;
+  }
+  
+  .dropdown-toggle .caret {
+    border-top: 5px solid #666;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    margin-left: 5px;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    min-width: 80px;
+    z-index: 1000;
+    display: none; /* Oculto por defecto */
+  }
+  
+  .dropdown.active .dropdown-menu {
+    display: block; /* Mostrar cuando la clase 'active' está presente */
+  }
+  
+  .dropdown-menu li a {
+    display: block;
+    padding: 8px 15px;
+    text-decoration: none;
+    color: #333;
+    font-size: 0.9em;
+  }
+  
+  .dropdown-menu li a:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .dropdown-menu li div {
+    padding: 8px 15px;
+    font-size: 0.9em;
+    color: #333;
+  }
+  
+  .dropdown-menu li div span:first-child {
+    display: block;
+  }
+  
+  .dropdown-menu li div span:last-child {
+    font-weight: bold;
+  }
+  
+  /* Logo móvil y menú */
+  .bipo_logoMobileMenu {
+    display: none; /* Oculto en pantallas grandes */
+  }
+  
+  .bipo_logoMobileMenu img {
+    height: 30px; /* Ajusta la altura del logo móvil */
+  }
+  
+  /* Contenedor de búsqueda */
+  .bipo_searchPosition {
+    margin-left: 20px;
+  }
+  
+  .bipo_searchPosition a[role="button"] {
+    background: transparent;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    padding: 8px;
+    text-decoration: none;
+  }
+  
+  .bipo_searchPosition a[role="button"] .bipoicon-lupa {
+    font-size: 1.2em;
+  }
+  
+  #search {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    display: none; 
+    }
+
+#search .input-group {
+  flex-direction: row;
+}
+
+.bipo_navbgcolor {
+  height: auto; /* Ajustar altura automáticamente */
+  position: static;
+}
+
+#heading {
+    background-color: black;
+}

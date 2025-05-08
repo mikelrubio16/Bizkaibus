@@ -1,0 +1,124 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: black;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.titulo {
+  padding:5px;
+}
+
+#datos {
+  text-align: center;
+  color:black;
+  transition: color 1s ease;
+}
+
+#datos0 {
+  color: red;
+}
+
+#datos1 {
+  color: yellow;
+}
+
+#datos2 {
+  color: green;
+}
+
+#datos0.updated {
+  color: red;
+  font-weight: bolder;
+}
+
+#datos1.updated {
+  color: yellow;
+  font-weight: bolder;
+}
+
+#datos2.updated {
+  color: green;
+  font-weight: bolder;
+}
+
+.paradas, .lineas {
+  height: 50px;
+  width: 280px;
+  text-align: center;
+  font-size: medium;
+  border-radius: 10px;
+}
+
+.boton {
+  width: 280px;
+    height: 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 300ms;
+}
+
+.tabla {
+  border-collapse: collapse;
+  display: block;
+  justify-items: center;
+}
+
+.tabla, 
+.tabla th, 
+.tabla td {
+  font-size: 18px;
+}
+
+.map {
+  height: 250px;
+  width: 100%;
+}
+
+
+
+[data-readmore] {
+ transition: height 100ms;
+ overflow: hidden;
+}
+
+h1, h2, h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.boton {
+  height: 50px;
+}

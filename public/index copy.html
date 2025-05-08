@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+    <title>Posición del Autobús en Ruta GPX</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.1/gpx.min.js"></script>
+    </head>
+    <body>
+    <div id="map" style="height: 250px;"></div>
+    <script>
+// Inicializa el mapa
+const map = L.map("map").setView([40.4168, -3.7038], 13); // Coordenadas iniciales
+
+// Añade una capa base
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  attribution: "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
+}).addTo(map);
+
+// Carga el archivo GPX
+let gpxLayer;
+let trackPoints;
+fetch("/ruta-autobus.gpx")
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error("Error al cargar el archivo GPX");
+    }
+    return response.text();
+  })
+  .then((gpxData) => {
+    gpxLayer = new L.GPX(gpxData, { async: true,
+        marker_options: {
+            startIconUrl: "/logo192.png",
+            endIconUrl: "/logo192.png",
+            shadowUrl: "/logo192.png",
+        },})
+      .on("loaded", function (e) {
+        console.log("GPX cargado correctamente");
+        map.fitBounds(e.target.getBounds()); // Ajusta el mapa al track
+        trackPoints = gpxLayer.getLayers()[0]._layers[gpxLayer.getLayers()[0]._leaflet_id - 1]._latlngs;  
+        trackPoints = trackPoints.reverse();
+      })
+      .addTo(map);
+      
+  })
+  .catch((error) => {
+    console.error("Error al cargar el archivo GPX:", error);
+  });
+
+// Función para calcular la posición del autobús en la ruta
+function getPositionOnRoute(trackPoints, distanceRemaining) {
+  let totalDistance = 0;  
+  
+  if(trackPoints.length > 0)
+  {
+    for (let i = 0; i < trackPoints.length - 1; i++) {
+      const segmentDistance = map.distance(trackPoints[i], trackPoints[i + 1]);
+      totalDistance += segmentDistance;
+
+      if (totalDistance >= distanceRemaining) {
+        return trackPoints[i];
+      }
+    }
+
+    return trackPoints[trackPoints.length - 1]; // Devuelve el último punto si se recorre toda la distancia
+  }
+  
+}
+
+// Función para actualizar la posición del autobús
+function updateBusPosition(distanceRemaining) {
+  if (!gpxLayer) {
+    console.error("La capa GPX aún no está cargada.");
+    return;
+  }
+
+  // Obtiene los puntos de la ruta desde la capa GPX
+  //let trackPoints = [];  
+  //trackPoints = trackPoints.reverse();
+  if(trackPoints.length > 0)
+  {
+    // Calcula la posición del autobús en función de la distancia restante
+    const busPosition = getPositionOnRoute(trackPoints, distanceRemaining);
+
+    if (busPosition) {
+      // Crear o mover un marcador de autobús
+      if (!window.busMarker) {
+        window.busMarker = L.circleMarker(busPosition, {
+          radius: 6,
+          color: "red",
+          fillColor: "#f03",
+          fillOpacity: 0.8,
+        }).addTo(map);
+      } else {
+        window.busMarker.setLatLng(busPosition);
+      }
+    }
+  }  
+}
+
+// Simulación: Actualiza la posición del autobús periódicamente
+let distanceRemaining = 5000; // Ejemplo inicial
+
+setInterval(() => {
+  distanceRemaining -= 200; // Reduce la distancia restante como ejemplo
+  updateBusPosition(distanceRemaining);
+
+  if (distanceRemaining <= 0) {
+    console.log("El autobús ha llegado a la parada.");
+    clearInterval(this); // Detén el intervalo si ya no hay distancia restante
+  }
+}, 1000);
+</script>
+</body>
+</html>
