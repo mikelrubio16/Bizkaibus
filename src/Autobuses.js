@@ -116,7 +116,16 @@ export const Autobuses = () => {
             { id: 2080, name: "Trobika auzoa", lat: 43.358786603170145, lng: -2.8352895100381685 },
             { id: 2081, name: "Elordui", lat: 43.36675385436272, lng: -2.8235371555235513 },
             { id: 2082, name: "Larrauri", lat: 43.36732, lng: -2.81051 },
-            { id: 2251, name: "Bidebieta", lat: 43.37287, lng: -2.80191 }
+            { id: 2251, name: "Bidebieta", lat: 43.37287, lng: -2.80191 },
+            { id: 2084, name: "Ereñotzaga", lat: 43.38036, lng: -2.80122 },
+            { id: 2085, name: "Landabarrena", lat: 43.38905, lng: -2.79931 },
+            { id: 2086, name: "Goikolea", lat: 43.40403, lng: -2.81088 },
+            { id: 2088, name: "Otsategi", lat: 43.41333, lng: -2.81368},
+            { id: 2089, name: "Egia-Frontoia", lat: 43.41812, lng: -2.81333},
+            { id: 2090, name: "Estankoalde (Romana)", lat: 43.42248, lng: -2.81397 },
+            { id: 2091, name: "Olaskoetxe (Irubide)", lat: 43.42712, lng: -2.81160 },
+            { id: 2092, name: "Bentalde", lat: 43.42918, lng: -2.80503 },
+            { id: 2352, name: "San Pelaio (Begiratokia/Mirador", lat: 43.43155, lng: -2.800145 }
         ],
         A3518V : [ //Bakio-BIlbao autopista
             { id: 2184, name: "Bidebieta", lat: 43.37296292363398, lng: -2.8020943411042123 },
