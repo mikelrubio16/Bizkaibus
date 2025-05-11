@@ -6,8 +6,6 @@
 
 - Consulta de horarios y rutas de autobuses en Bizkaia.
 - Información en tiempo real sobre tiempos de espera en paradas.
-- Visualización de rutas y paradas en un mapa interactivo.
-- Búsqueda de paradas cercanas según la ubicación del usuario.
 - Interfaz intuitiva y fácil de usar.
 
 ## 🛠️ Tecnologías utilizadas
