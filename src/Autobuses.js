@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react'
 import L from "leaflet";
 import "leaflet-gpx";
 import "leaflet/dist/leaflet.css";
-import { paradas } from './Paradas.js';
+import { lineas } from './Bus.js';
 
 export const Autobuses = () => {
 
@@ -61,84 +61,6 @@ export const Autobuses = () => {
         const stopId = event.target.value;
         const stop = lineas[selectedLinea].find((stop) => stop.id.toString() === stopId);
         setSelectedStop(stop); // Guarda la parada completa        
-    };
-
-    const lineas = {
-        A3527I: [ // Bilbao-Bermeo autopista
-            paradas[806],
-            paradas[3394],
-            paradas[3395],
-            paradas[2001],
-            paradas[3435],
-            paradas[2080],
-            paradas[2081],
-            paradas[2082],
-            paradas[2251],
-            paradas[2252],
-            paradas[2253],
-            paradas[2254],
-            paradas[2255],
-            paradas[2256],
-            paradas[2257],
-            paradas[2258],
-            paradas[2259],
-            paradas[2261]
-        ],
-        A3527V: [ // Bermeo-Bilbao autopista
-            paradas[1976],
-            paradas[2261],
-            paradas[2175],
-            paradas[2176],
-            paradas[2177],
-            paradas[2178],
-            paradas[2179],
-            paradas[2180],
-            paradas[2181],
-            paradas[2182],
-            paradas[2183],
-            paradas[2184],
-            paradas[2103],
-            paradas[2081],
-            paradas[2105],
-            paradas[3437],
-            paradas[3438],
-            paradas[3396],
-            paradas[3397],
-            paradas[128],
-            paradas[168]
-        ],
-        A3518I: [ // Bilbao-Bakio autopista
-            paradas[806],
-            paradas[3394],
-            paradas[3395],
-            paradas[2001],
-            paradas[3435],
-            paradas[2080],
-            paradas[2081],
-            paradas[2082],
-            paradas[2251],
-            paradas[2084],
-            paradas[2085],
-            paradas[2086],
-            paradas[2088],
-            paradas[2089],
-            paradas[2090],
-            paradas[2091],
-            paradas[2092],
-            paradas[2352]
-        ],
-        A3518V: [ // Bakio-Bilbao autopista
-            paradas[2184],
-            paradas[2103],
-            paradas[2081],
-            paradas[2105],
-            paradas[3437],
-            paradas[3438],
-            paradas[3396],
-            paradas[3397],
-            paradas[128],
-            paradas[168]
-        ]
     };
 
     function findClosestPointIndex(trackPointsParam, stop) {

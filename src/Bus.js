@@ -1,4 +1,4 @@
-export const paradas = {
+const paradas = {
     806: { id: 806, name: "Deustuko Unibertsitatea", lat: 43.271045297221555, lng: -2.9412451962293837 },
     3394: { id: 3394, name: "Atxuri", lat: 43.3582827709362, lng: -2.8547008870006025 },
     3395: { id: 3395, name: "Lauaxeta", lat: 43.35681642985775, lng: -2.850547158110375 },
@@ -44,5 +44,104 @@ export const paradas = {
     2090: { id: 2090, name: "Estankoalde (Romana)", lat: 43.42248, lng: -2.81397 },
     2091: { id: 2091, name: "Olaskoetxe (Irubide)", lat: 43.42712, lng: -2.81160 },
     2092: { id: 2092, name: "Bentalde", lat: 43.42918, lng: -2.80503 },
-    2352: { id: 2352, name: "San Pelaio (Begiratokia/Mirador", lat: 43.43155, lng: -2.800145 }
+    2352: { id: 2352, name: "San Pelaio (Begiratokia/Mirador", lat: 43.43155, lng: -2.800145 },
+    2087: { id: 2087, name: "Kurtzikene", lat: 43.408702474849086, lng: -2.8142208881017035 },
+    2093: { id: 2093, name: "Bentalde", lat:43.429375114660004, lng: -2.8053297817867446 },
+    2094: { id: 2094, name: "Olaskoetxe", lat: 43.427396961337486, lng: -2.8118361534534886 }, //Direccion Bilbo
+    2095: { id: 2095, name: "Estankoalde", lat: 43.422385379171054, lng: -2.814272300801745 }, //Direccion Bilbo
+    2096: { id: 2096, name: "Egia-Frontoia", lat: 43.4174608520403, lng: -2.813102347833841 }, //Direccion Bilbo
+    2097: { id: 2097, name: "Otsategi", lat: 43.4133560160744, lng: -2.8139678818034364 }, //Direccion Bilbo
+    2098: { id: 2098, name: "Kurtzikene", lat: 43.40748318081229, lng: -2.8138135461266756 }, //Direccion Bilbo
+    2099: { id: 2099, name: "Goikolea", lat: 43.40420614687197, lng: -2.811400537032719 }, //Direccion Bilbo
+    2100: { id: 2100, name: "Landabarrena", lat: 43.38875773508435, lng: -2.7994743803369455 }, //Direccion Bilbo
+    2101: { id: 2101, name: "Ereñotzaga", lat: 43.38167533985808, lng: -2.8016342901897615 }, //Direccion Bilbo
+};  
+
+export const lineas = {
+    A3527I: [ // Bilbao-Bermeo autopista
+        paradas[806],
+        paradas[3394],
+        paradas[3395],
+        paradas[2001],
+        paradas[3435],
+        paradas[2080],
+        paradas[2081],
+        paradas[2082],
+        paradas[2251],
+        paradas[2252],
+        paradas[2253],
+        paradas[2254],
+        paradas[2255],
+        paradas[2256],
+        paradas[2257],
+        paradas[2258],
+        paradas[2259],
+        paradas[2261]
+    ],
+    A3527V: [ // Bermeo-Bilbao autopista
+        paradas[1976],
+        paradas[2261],
+        paradas[2175],
+        paradas[2176],
+        paradas[2177],
+        paradas[2178],
+        paradas[2179],
+        paradas[2180],
+        paradas[2181],
+        paradas[2182],
+        paradas[2183],
+        paradas[2184],
+        paradas[2103],
+        paradas[2081],
+        paradas[2105],
+        paradas[3437],
+        paradas[3438],
+        paradas[3396],
+        paradas[3397],
+        paradas[128],
+        paradas[168]
+    ],
+    A3518I: [ // Bilbao-Bakio autopista
+        paradas[806],
+        paradas[3394],
+        paradas[3395],
+        paradas[2001],
+        paradas[3435],
+        paradas[2080],
+        paradas[2081],
+        paradas[2082],
+        paradas[2251],
+        paradas[2084],
+        paradas[2085],
+        paradas[2086],
+        paradas[2087],
+        paradas[2088],
+        paradas[2089],
+        paradas[2090],
+        paradas[2091],
+        paradas[2092],
+        paradas[2352]
+    ],
+    A3518V: [ // Bakio-Bilbao autopista
+        paradas[2352],
+        paradas[2093],
+        paradas[2094],
+        paradas[2095],
+        paradas[2096],
+        paradas[2097],
+        paradas[2098],
+        paradas[2099],
+        paradas[2100],
+        paradas[2101],
+        paradas[2184],
+        paradas[2103],
+        paradas[2081],
+        paradas[2105],
+        paradas[3437],
+        paradas[3438],
+        paradas[3396],
+        paradas[3397],
+        paradas[128],
+        paradas[168]
+    ]
 };
