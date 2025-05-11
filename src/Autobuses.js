@@ -20,8 +20,9 @@ export const Autobuses = () => {
     const [startMarkerLayer, setStartMarkerLayer] = useState(null);
     const [endMarkerLayer, setEndMarkerLayer] = useState(null);
 
-    const startIcon = useMemo(() => new L.Icon({ iconUrl: "./startFlag.png", iconSize: [32, 32] }), []);
-    const endIcon = useMemo(() => new L.Icon({ iconUrl: "./endFlag.png", iconSize: [32, 32] }), []);
+    const startIcon = useMemo(() => new L.Icon({ iconUrl: "./icons/startFlag.png", iconSize: [32, 32], }), []);
+    const endIcon = useMemo(() => new L.Icon({ iconUrl: "./icons/endFlag.png", iconSize: [32, 32] }), []);
+    const busIcon = useMemo(() => new L.Icon({ iconUrl: "./icons/busIcon.png", iconSize: [24, 24] }), []);
 
     // Inicializar el mapa en un useEffect separado
     useEffect(() => {
@@ -109,7 +110,7 @@ export const Autobuses = () => {
     const loadGPX = (linea) => {
         // Este es un ejemplo de cómo cargar el GPX dependiendo de la línea
         ;
-        fetch(`/ruta-` + linea.substring(0, linea.length -1) + `.gpx`)
+        fetch(`/routes/ruta-` + linea.substring(0, linea.length -1) + `.gpx`)
         .then((response) => response.text())
         .then((gpx) => {
             setGPXData(gpx);
@@ -313,13 +314,21 @@ export const Autobuses = () => {
       
         if (busMarkers[busId]) { //Si existe el punto del bus solicitado actualizo su posicion
           busMarkers[busId].setLatLng(position);
-        } else { //Si no existe el punto del bus lo creo y lo dibujo en el mapa
-          const marker  = L.circleMarker(position, {
-            radius: 8,
-            color: color,
-            fillColor: color,
-            fillOpacity: 0.8,
-          }).addTo(map);
+        } else { //Si no existe el punto del bus lo creo y lo dibujo en el mapa        
+            var marker;
+            if(color == "black")
+            {
+                marker  = L.circleMarker(position, {
+                radius: 8,
+                color: color,
+                fillColor: color,
+                fillOpacity: 0.8,
+                }).addTo(map).bindPopup("Parada " + selectedStop.name);;
+            }
+            else
+            {
+                marker = L.marker(position, { icon: busIcon }).addTo(map);
+            }
           
           busMarkers[busId] = marker;
           setBusMarkers(busMarkers);
@@ -384,7 +393,7 @@ export const Autobuses = () => {
                 : (<tr><td colSpan={6}>No hay buses para mostrar</td></tr>)
                 }
             </tbody>
-        </table>
+        </table>        
     </div>
     )
 }
