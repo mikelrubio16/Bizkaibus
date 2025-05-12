@@ -314,6 +314,8 @@ export const Autobuses = () => {
       
         if (busMarkers[busId]) { //Si existe el punto del bus solicitado actualizo su posicion
           busMarkers[busId].setLatLng(position);
+          if(color == "black")
+            busMarkers[busId].bindPopup(selectedStop.name);
         } else { //Si no existe el punto del bus lo creo y lo dibujo en el mapa        
             var marker;
             if(color == "black")
