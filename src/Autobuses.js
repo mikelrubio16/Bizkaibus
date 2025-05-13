@@ -242,27 +242,12 @@ export const Autobuses = () => {
             });
             setMostrarBuses2(busesArray);
 
-            busesArray.forEach((bus) => {
-                updateBusPosition(bus.metrosPrimerVehiculo, 'red', bus.linea, selectedStop);
-            });
-
-            if(busesArray.length === 1)
-            {
-                updateBusPosition(busesArray[0].metrosPrimerVehiculo, 'red', busesArray[0].linea, selectedStop);
-                if(busesArray[0].metrosSegundoVehiculo !== "N/A")
-                    updateBusPosition(busesArray[0].metrosSegundoVehiculo, 'yellow', busesArray[0].linea, selectedStop);
-            }
-            else if(busesArray.length === 2)
-            {
-                updateBusPosition(busesArray[0].metrosPrimerVehiculo, 'red', busesArray[0].linea, selectedStop);
-                updateBusPosition(busesArray[1].metrosPrimerVehiculo, 'yellow', busesArray[1].linea, selectedStop);
-            }
-            else if(busesArray.length === 3)
-            {
-                updateBusPosition(busesArray[0].metrosPrimerVehiculo, 'red', busesArray[0].linea, selectedStop);
-                updateBusPosition(busesArray[1].metrosPrimerVehiculo, 'yellow', busesArray[1].linea, selectedStop);
-                updateBusPosition(busesArray[2].metrosPrimerVehiculo, 'green', busesArray[2].linea, selectedStop);
-            }
+            busesArray.forEach((bus, index) => {
+                updateBusPosition(bus.metrosPrimerVehiculo, 'red', bus.linea + "-1", selectedStop);
+                if(bus.metrosSegundoVehiculo !== "N/A")
+                    updateBusPosition(bus.metrosSegundoVehiculo, 'yellow', bus.linea + "-2", selectedStop);
+            }); 
+            
             updateBusPosition(0, 'black', "Parada", selectedStop);
             
             //updateBusPosition(300, 'red', "A3527", selectedStop);
@@ -329,7 +314,7 @@ export const Autobuses = () => {
             }
             else
             {
-                marker = L.marker(position, { icon: busIcon }).addTo(map);
+                marker = L.marker(position, { icon: busIcon }).addTo(map).bindPopup(busId);
             }
           
           busMarkers[busId] = marker;
