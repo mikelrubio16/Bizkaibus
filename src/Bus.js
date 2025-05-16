@@ -143,5 +143,17 @@ export const lineas = {
         paradas[3397],
         paradas[128],
         paradas[168]
+    ],
+    A3517I: [   //Bilbao-Derio-Mungia-Bakio-Bermeo (Bolatoki)
+        paradas[2001],
+        paradas[3435],
+        paradas[2080],
+        paradas[2081],
+        paradas[2082],
+        paradas[2251]
+    ],
+    A3517V: [   //Bermeo-Bakio-Mungia-Derio-Bilbao (Bolatoki)
+        paradas[3435],
+        paradas[2001]
     ]
 };

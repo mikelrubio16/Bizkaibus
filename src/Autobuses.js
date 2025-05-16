@@ -299,11 +299,11 @@ export const Autobuses = () => {
       
         if (busMarkers[busId]) { //Si existe el punto del bus solicitado actualizo su posicion
           busMarkers[busId].setLatLng(position);
-          if(color == "black")
+          if(color === "black")
             busMarkers[busId].bindPopup(selectedStop.name);
         } else { //Si no existe el punto del bus lo creo y lo dibujo en el mapa        
             var marker;
-            if(color == "black")
+            if(color === "black")
             {
                 marker  = L.circleMarker(position, {
                 radius: 8,
@@ -331,6 +331,9 @@ export const Autobuses = () => {
             <option value="A3527V">A3527 Bermeo-Bilbao</option>
             <option value="A3518I">A3518 Bilbao-Bakio</option>
             <option value="A3518V">A3518 Bakio-Bilbao</option>
+            <option value="A3517I">A3517 Bilbao-Derio-Mungia-Bakio-Bermeo (Bolatoki)</option>
+            <option value="A3517V">A3517 Bermeo-Bakio-Mungia-Derio-Bilbao (Bolatoki)</option>
+
         </select>
         <br />
         <br />
