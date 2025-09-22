@@ -52,7 +52,7 @@
 }
 
 #datos1 {
-  color: yellow;
+  color: blue;
 }
 
 #datos2 {
@@ -65,7 +65,7 @@
 }
 
 #datos1.updated {
-  color: yellow;
+  color: blue;
   font-weight: bolder;
 }
 

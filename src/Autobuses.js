@@ -11,7 +11,7 @@ export const Autobuses = () => {
     const mapRef = useRef(null); // Almacena la referencia al mapa
     const [ map, setMap ] = useState();
     const [ gpxData, setGPXData ] = useState();
-    const [ busMarkers, setBusMarkers ] = useState([]);
+    const [ busMarkers, setBusMarkers] = useState([]);
     const [selectedLinea, setSelectedLinea] = useState("A3527I");
     const [selectedStop, setSelectedStop] = useState(null);
     const [ trackPoints, setTrackPoints ] = useState([]);
@@ -22,7 +22,17 @@ export const Autobuses = () => {
 
     const startIcon = useMemo(() => new L.Icon({ iconUrl: "./icons/startFlag.png", iconSize: [32, 32], }), []);
     const endIcon = useMemo(() => new L.Icon({ iconUrl: "./icons/endFlag.png", iconSize: [32, 32] }), []);
-    const busIcon = useMemo(() => new L.Icon({ iconUrl: "./icons/busIcon.png", iconSize: [24, 24] }), []);
+    //const busIcon = useMemo(() => new L.Icon({ iconUrl: "./icons/busIcon.png", iconSize: [24, 24] }), []);
+
+    const busIconGreen = useMemo(() => new L.Icon({ iconUrl: "./icons/busIconGreen.png", iconSize: [24, 24] }), []);
+    const busIconRed = useMemo(() => new L.Icon({ iconUrl: "./icons/busIconRed.png", iconSize: [24, 24] }), []);
+    const busIconBlue = useMemo(() => new L.Icon({ iconUrl: "./icons/busIconBlue.png", iconSize: [24, 24] }), []);
+
+    const busIcons = {
+        Green: busIconGreen,
+        Red: busIconRed,
+        Blue: busIconBlue
+    };
 
     // Inicializar el mapa en un useEffect separado
     useEffect(() => {
@@ -237,16 +247,47 @@ export const Autobuses = () => {
                     metrosPrimerVehiculo: metrosPrimerVehiculo,
                     metrosSegundoVehiculo: metrosSegundoVehiculo
                 };
-                if(linea === selectedLinea.substring(0, selectedLinea.length-1)) 
+                //if(linea === selectedLinea.substring(0, selectedLinea.length-1)) 
                     busesArray.push(bus);
             });
             setMostrarBuses2(busesArray);
 
-            busesArray.forEach((bus, index) => {
-                updateBusPosition(bus.metrosPrimerVehiculo, 'red', bus.linea + "-1", selectedStop);
-                if(bus.metrosSegundoVehiculo !== "N/A")
-                    updateBusPosition(bus.metrosSegundoVehiculo, 'yellow', bus.linea + "-2", selectedStop);
-            }); 
+            // busesArray.forEach((bus, index) => {
+            //     updateBusPosition(bus.metrosPrimerVehiculo, 'Red', bus.linea + "-1", selectedStop);
+            //     if(bus.metrosSegundoVehiculo !== "N/A")
+            //         updateBusPosition(bus.metrosSegundoVehiculo, 'Blue', bus.linea + "-2", selectedStop);
+            // }); 
+
+            if (busesArray.length == 3)
+            {
+                updateBusPosition(busesArray[0].metrosPrimerVehiculo, 'Red', busesArray[0].linea + "-1", selectedStop);
+                if(busesArray[0].metrosSegundoVehiculo !== "N/A")
+                    updateBusPosition(busesArray[0].metrosSegundoVehiculo, 'Red', busesArray[0].linea + "-2", selectedStop);
+
+                updateBusPosition(busesArray[1].metrosPrimerVehiculo, 'Blue', busesArray[1].linea + "-1", selectedStop);
+                if(busesArray[1].metrosSegundoVehiculo !== "N/A")
+                    updateBusPosition(busesArray[1].metrosSegundoVehiculo, 'Blue', busesArray[1].linea + "-2", selectedStop);
+
+                updateBusPosition(busesArray[2].metrosPrimerVehiculo, 'Green', busesArray[2].linea + "-1", selectedStop);
+                if(busesArray[2].metrosSegundoVehiculo !== "N/A")
+                    updateBusPosition(busesArray[2].metrosSegundoVehiculo, 'Green', busesArray[2].linea + "-2", selectedStop);
+            }
+            else if(busesArray.length == 2)
+            {
+                updateBusPosition(busesArray[0].metrosPrimerVehiculo, 'Red', busesArray[0].linea + "-1", selectedStop);
+                if(busesArray[0].metrosSegundoVehiculo !== "N/A")
+                    updateBusPosition(busesArray[0].metrosSegundoVehiculo, 'Red', busesArray[0].linea + "-2", selectedStop);
+
+                updateBusPosition(busesArray[1].metrosPrimerVehiculo, 'Blue', busesArray[1].linea + "-1", selectedStop);
+                if(busesArray[1].metrosSegundoVehiculo !== "N/A")
+                    updateBusPosition(busesArray[1].metrosSegundoVehiculo, 'Blue', busesArray[1].linea + "-2", selectedStop);
+            }
+            else if(busesArray.length == 1)
+            {
+                updateBusPosition(busesArray[0].metrosPrimerVehiculo, 'Red', busesArray[0].linea + "-1", selectedStop);
+                if(busesArray[0].metrosSegundoVehiculo !== "N/A")
+                    updateBusPosition(busesArray[0].metrosSegundoVehiculo, 'Red', busesArray[0].linea + "-2", selectedStop);
+            }
             
             updateBusPosition(0, 'black', "Parada", selectedStop);
             
@@ -286,6 +327,7 @@ export const Autobuses = () => {
     function updateBusPosition(metros, color, busId, selectedStop) {
         if (!map) return;    
 
+        const busIconColor = busIcons[color];
         const latLangs = gpxLayer.getLayers()[0]._layers[gpxLayer.getLayers()[0]._leaflet_id - 1]._latlngs;
         const routeSegment = getRouteSegment(latLangs, selectedStop);
         //L.marker([routeSegment[routeSegment.length -1].lat, routeSegment[routeSegment.length -1].lng], {icon: endIcon}).addTo(map);
@@ -298,9 +340,17 @@ export const Autobuses = () => {
         }
       
         if (busMarkers[busId]) { //Si existe el punto del bus solicitado actualizo su posicion
-          busMarkers[busId].setLatLng(position);
-          if(color === "black")
-            busMarkers[busId].bindPopup(selectedStop.name);
+            if(color === "black")
+            {
+                busMarkers[busId].setLatLng(position);
+                busMarkers[busId].bindPopup(selectedStop.name);
+            }
+            else
+            {
+                busMarkers[busId].setLatLng(position);   
+                busMarkers[busId].setIcon(busIconColor);
+            }
+            
         } else { //Si no existe el punto del bus lo creo y lo dibujo en el mapa        
             var marker;
             if(color === "black")
@@ -314,7 +364,7 @@ export const Autobuses = () => {
             }
             else
             {
-                marker = L.marker(position, { icon: busIcon }).addTo(map).bindPopup(busId);
+                marker = L.marker(position, { icon: busIconColor }).addTo(map).bindPopup(busId);
             }
           
           busMarkers[busId] = marker;
