@@ -398,14 +398,22 @@ export const Autobuses = () => {
         <div id="map" className="map"></div>     
         <h1>Autobuses</h1>
         <select className="lineas" id="lineas" name="lineas"  onChange={handleLineaChange}>
-            <option value="A3527I">A3527 Bilbao-Bermeo</option>
-            <option value="A3527V">A3527 Bermeo-Bilbao</option>
-            <option value="A3518I">A3518 Bilbao-Bakio</option>
-            <option value="A3518V">A3518 Bakio-Bilbao</option>
-            <option value="A3517I">A3517 Bilbao-Derio-Mungia-Bakio-Bermeo (Bolatoki)</option>
-            <option value="A3517V">A3517 Bermeo-Bakio-Mungia-Derio-Bilbao (Bolatoki)</option>
-            <option value="A3531I">A3531 Leioa-Urduliz Ospitalea-Mungia</option>
-            <option value="A3531V">A3531 Mungia-Urduliz Ospitalea-Leioa</option>
+            <optgroup label="A3527 · Bilbao – Bermeo (autopista)">
+                <option value="A3527I">A3527 · Bilbao → Bermeo</option>
+                <option value="A3527V">A3527 · Bermeo → Bilbao</option>
+            </optgroup>
+            <optgroup label="A3518 · Bilbao – Bakio (autopista)">
+                <option value="A3518I">A3518 · Bilbao → Bakio</option>
+                <option value="A3518V">A3518 · Bakio → Bilbao</option>
+            </optgroup>
+            <optgroup label="A3517 · Bilbao – Derio – Mungia (Bolatoki)">
+                <option value="A3517I">A3517 · Bilbao → Mungia</option>
+                <option value="A3517V">A3517 · Mungia → Bilbao</option>
+            </optgroup>
+            <optgroup label="A3531 · Leioa – Urduliz Ospitalea – Mungia">
+                <option value="A3531I">A3531 · Leioa → Mungia</option>
+                <option value="A3531V">A3531 · Mungia → Leioa</option>
+            </optgroup>
 
         </select>
         <br />
