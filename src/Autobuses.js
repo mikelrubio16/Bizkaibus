@@ -108,7 +108,7 @@ export const Autobuses = () => {
 
     function getRouteSegment(trackPointsParam, stop) {
         const stopIndex = findClosestPointIndex(trackPointsParam, stop);
-        return trackPointsParam.slice(stopIndex, trackPointsParam.length-1); // Corta la ruta hasta la parada
+        return trackPointsParam.slice(stopIndex); // Corta la ruta hasta la parada (incluye el último punto, para que la primera parada del recorrido no quede vacía)
     }
 
     // Usar useEffect para cargar el track y manejar la inversión del track si es necesario
@@ -117,25 +117,45 @@ export const Autobuses = () => {
 
     }, [selectedLinea]);
     
+    // Devuelve los puntos de la línea del track dentro de la capa GPX (busca la polilínea, esté anidada o no)
+    function obtenerTrack(capa) {
+        if (capa instanceof L.Polyline) return capa.getLatLngs();
+        if (capa.getLayers) {
+            for (const hija of capa.getLayers()) {
+                const puntos = obtenerTrack(hija);
+                if (puntos) return puntos;
+            }
+        }
+        return null;
+    }
+
     // Función para cargar el GPX
+    // Primero intenta cargar el GPX propio del sentido (ruta-A3531V.gpx), dibujado en el sentido de la marcha.
+    // Si no existe, carga el GPX compartido de la línea (ruta-A3531.gpx), dibujado en sentido de ida.
     const loadGPX = (linea) => {
-        // Este es un ejemplo de cómo cargar el GPX dependiendo de la línea
-        ;
-        fetch(`/routes/ruta-` + linea.substring(0, linea.length -1) + `.gpx`)
-        .then((response) => response.text())
+        const cargar = (url) => fetch(url)
+            .then((response) => response.ok ? response.text() : null)
+            .then((texto) => (texto && texto.includes("<gpx")) ? texto : null); // el servidor de desarrollo devuelve index.html si no existe
+
+        cargar(`/routes/ruta-${linea}.gpx`)
+        .then((texto) => texto
+            ? { texto, porSentido: true }
+            : cargar(`/routes/ruta-` + linea.substring(0, linea.length -1) + `.gpx`).then((t) => ({ texto: t, porSentido: false })))
         .then((gpx) => {
-            setGPXData(gpx);
+            if (gpx.texto) setGPXData(gpx);
         })
         .catch((error) => console.error("Error loading GPX file:", error));
     };
 
     useEffect(() => {
         if (gpxData && map) {
-            const aux = new L.GPX(gpxData, { async: true }).on("loaded", function (e) {
-                const track = e.target.getLayers()[0]._layers[e.target.getLayers()[0]._leaflet_id - 1]._latlngs;
+            // markers a null: sin los marcadores por defecto de leaflet-gpx (salían como imagen rota); usamos startFlag/endFlag
+            const aux = new L.GPX(gpxData.texto, { async: true, markers: { startIcon: null, endIcon: null } }).on("loaded", function (e) {
+                const track = obtenerTrack(e.target);
                 var finalTrack = track;
-                if (selectedLinea.endsWith('I')) {
-                    // Si la línea seleccionada es la de IDA (termina en I el track), invertir el track
+                // El track tiene que quedar del final al inicio del recorrido.
+                // GPX propio del sentido: siempre se invierte. GPX compartido (sentido ida): solo en la IDA.
+                if (gpxData.porSentido || selectedLinea.endsWith('I')) {
                     finalTrack = track.reverse();
                 }
                 setTrackPoints(finalTrack);
@@ -191,7 +211,8 @@ export const Autobuses = () => {
 
     const getBuses = () => {        
         // Obtener el valor seleccionado del combobox
-        const paradaSeleccionada = document.getElementById('paradas').value;
+        // La API de Bizkaibus espera el código con 4 cifras (806 -> 0806); si no, responde "El Código de Parada No Existe"
+        const paradaSeleccionada = document.getElementById('paradas').value.padStart(4, '0');
 
         //Recibir datos de la parada seleccionada para mostrar los tiempos.
         try {
@@ -303,9 +324,10 @@ export const Autobuses = () => {
         }
         else
         {
-            console.log(data.STATUS); // "OK"
-            console.log(data.Resultado); // Contenido en XML
-        }        
+            console.log(data.STATUS, data.NoInfo); // Sin datos de la API: aun así se pinta la parada
+            setMostrarBuses2([]);
+            updateBusPosition(0, 'black', "Parada", selectedStop);
+        }
     };
     
     // Función para calcular la posición del autobús en la ruta
@@ -329,7 +351,7 @@ export const Autobuses = () => {
         if (!map) return;    
 
         const busIconColor = busIcons[color];
-        const latLangs = gpxLayer.getLayers()[0]._layers[gpxLayer.getLayers()[0]._leaflet_id - 1]._latlngs;
+        const latLangs = obtenerTrack(gpxLayer);
         const routeSegment = getRouteSegment(latLangs, selectedStop);
         //L.marker([routeSegment[routeSegment.length -1].lat, routeSegment[routeSegment.length -1].lng], {icon: endIcon}).addTo(map);
         //downloadGPX(routeSegment);
@@ -384,6 +406,8 @@ export const Autobuses = () => {
             <option value="A3518V">A3518 Bakio-Bilbao</option>
             <option value="A3517I">A3517 Bilbao-Derio-Mungia-Bakio-Bermeo (Bolatoki)</option>
             <option value="A3517V">A3517 Bermeo-Bakio-Mungia-Derio-Bilbao (Bolatoki)</option>
+            <option value="A3531I">A3531 Leioa-Urduliz Ospitalea-Mungia</option>
+            <option value="A3531V">A3531 Mungia-Urduliz Ospitalea-Leioa</option>
 
         </select>
         <br />

@@ -1,63 +1,96 @@
-import React from 'react';
-import styles from './header.css'; // Asegúrate del nombre correcto del archivo de módulos CSS
+import React, { useEffect, useState } from 'react';
+import './Cabecera.css';
+
+// Enlaces a la web oficial de Bizkaibus (bizkaia.eus)
+const ENLACES_OFICIALES = [
+  { texto: 'Lineak', descripcion: 'Líneas', href: 'https://www.bizkaia.eus/eu/web/bizkaibus/lineak' },
+  { texto: 'Geralekuak', descripcion: 'Paradas', href: 'https://www.bizkaia.eus/eu/web/bizkaibus/geralekuak' },
+  { texto: 'Tarifak', descripcion: 'Tarifas', href: 'https://www.bizkaia.eus/eu/web/bizkaibus/tarifak' },
+  { texto: 'Bezero arreta', descripcion: 'Atención al cliente', href: 'https://www.bizkaia.eus/eu/web/bizkaibus/bezero-arreta' },
+  { texto: 'Bizkaibusi buruz', descripcion: 'Sobre Bizkaibus', href: 'https://www.bizkaia.eus/eu/web/bizkaibus/bizkaibusi-buruz' },
+];
+
+function IconoBus() {
+  return (
+    <svg className="cab-logo-icono" viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="4" y="3" width="16" height="15" rx="3" fill="currentColor" />
+      <rect x="6.5" y="5.5" width="11" height="5.5" rx="1" fill="var(--cab-fondo)" />
+      <circle cx="8.5" cy="14.5" r="1.3" fill="var(--cab-fondo)" />
+      <circle cx="15.5" cy="14.5" r="1.3" fill="var(--cab-fondo)" />
+      <rect x="6" y="18" width="3" height="3" rx="1" fill="currentColor" />
+      <rect x="15" y="18" width="3" height="3" rx="1" fill="currentColor" />
+    </svg>
+  );
+}
+
+function IconoExterno() {
+  return (
+    <svg className="cab-externo" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M9 2h5v5M14 2 7.5 8.5M12 9.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3.5"
+        fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 export function Cabecera() {
+  const [menuAbierto, setMenuAbierto] = useState(false);
+
+  // Cerrar el menú móvil con Escape
+  useEffect(() => {
+    if (!menuAbierto) return;
+    const alPulsar = (e) => { if (e.key === 'Escape') setMenuAbierto(false); };
+    window.addEventListener('keydown', alPulsar);
+    return () => window.removeEventListener('keydown', alPulsar);
+  }, [menuAbierto]);
+
   return (
-    <header id="banner" role="banner" className={styles.banner}>
-      {/* Eliminar la etiqueta <link> CDN */}
-      {/* <link href="..." rel="stylesheet" integrity="..." crossorigin="anonymous"></link> */}
-      <div id="heading" className={`${styles.heading} affix-top`}>
-        <div className="container">
-          <div className={`site-title affix-top ${styles.siteTitle}`}>
-            <a data-senna-off="true" className={`logo default-logo`} href="https://www.bizkaia.eus/eu/web/bizkaibus">
-              <span className="sr-only">
-                Bizkaia - Bizkaibus
-              </span>
-            </a>
-          </div>
-          <div className={`navbar navbar-expand-md slide-nav ${styles.navbar}`}> 
-            <div className="navbar-header">
-              {/* Este botón está correcto con los atributos de Bootstrap 4 */}
-              <button type="button" className={`navbar-toggle collapsed ${styles.navbarToggle}`} data-toggle="collapse" data-target="#collapsar" aria-expanded="false">
-                <span className="bipo_txtmenu">Menua</span>
-                <span className="bipoicon bipoicon-menu"></span> {/* Este debería mostrar las 3 rayas */}
-              </button>
-            </div>
-            {/*
-              Este es el DIV que modificamos.
-              Las clases 'collapse' y 'navbar-collapse' son de Bootstrap.
-              La visibilidad en móvil la maneja el JS de Bootstrap basado en data-*.
-            */}
-            <div id="collapsar" className={`collapse navbar-collapse slidemenu bipo-navbar-top-container ${styles.slidemenu}`}>
-              <nav id="navbar-main" role="navigation" aria-label="Menu nagusia" className={`affix-top ${styles.navbarMain}`}>
-                <div className="bipo_nav">
-                  <div>
-                    <ul className={`navbar-nav ${styles.navbarNav}`}>
-                      <li className={`nav-item lfr-nav-item ${styles.navItem}`} id="layout_11">
-                        <a data-senna-off="true" href="https://www.bizkaia.eus/eu/web/bizkaibus/lineak" target="_self" className={`firstMenuLink ${styles.firstMenuLink}`}><span className="bipo_estadomenu">LINEAK</span></a>
-                      </li>
-                      <li className={`nav-item lfr-nav-item ${styles.navItem}`} id="layout_11">
-                        <a data-senna-off="true" href="https://www.bizkaia.eus/eu/web/bizkaibus/geralekuak" target="_self" className={`firstMenuLink ${styles.firstMenuLink}`}><span className="bipo_estadomenu">GERALEKUAK</span></a>
-                      </li>
-                      <li className={`nav-item lfr-nav-item ${styles.navItem}`} id="layout_11">
-                        <a data-senna-off="true" href="https://www.bizkaia.eus/eu/web/bizkaibus/tarifak" target="_self" className={`firstMenuLink ${styles.firstMenuLink}`}><span className="bipo_estadomenu">TARIFAK</span></a>
-                      </li>
-                      <li className={`nav-item lfr-nav-item ${styles.navItem}`} id="layout_11">
-                        <a data-senna-off="true" href="https://www.bizkaia.eus/eu/web/bizkaibus/bezero-arreta" target="_self" className={`firstMenuLink ${styles.firstMenuLink}`}><span className="bipo_estadomenu">BEZERO ARRETA</span></a>
-                      </li>
-                      <li className={`nav-item lfr-nav-item ${styles.navItem}`} id="layout_11">
-                        <a data-senna-off="true" href="https://www.bizkaia.eus/eu/web/bizkaibus/bizkaibusi-buruz" target="_self" className={`firstMenuLink ${styles.firstMenuLink}`}><span className="bipo_estadomenu">BIZKAIBUSI BURUZ</span></a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </nav>
-            </div>
-          </div>
-        </div>
-        <div className={`inverse ${styles.inverse}`} id="navbar-height-col"></div><div className="overlay"></div>
+    <header className="cab">
+      <div className="cab-barra">
+        <a className="cab-marca" href="/" aria-label="Bizkaiko Busak, hasiera / inicio">
+          <IconoBus />
+          <span className="cab-marca-texto">
+            <span className="cab-titulo">Bizkaiko Busak</span>
+            <span className="cab-subtitulo">Autobusak denbora errealean · Autobuses en tiempo real</span>
+            <span className="cab-insignia cab-insignia--movil">Ez ofiziala · No oficial</span>
+          </span>
+        </a>
+
+        <span className="cab-insignia cab-insignia--escritorio" title="Proyecto personal, sin relación con la Diputación Foral de Bizkaia">
+          Ez ofiziala · No oficial
+        </span>
+
+        <button
+          type="button"
+          className="cab-boton-menu"
+          aria-expanded={menuAbierto}
+          aria-controls="cab-nav"
+          onClick={() => setMenuAbierto((abierto) => !abierto)}
+        >
+          <span className="cab-hamburguesa" aria-hidden="true"><span /><span /><span /></span>
+          <span className="cab-sr">{menuAbierto ? 'Itxi menua / Cerrar menú' : 'Ireki menua / Abrir menú'}</span>
+        </button>
+
+        <nav id="cab-nav" className={`cab-nav ${menuAbierto ? 'cab-nav--abierto' : ''}`} aria-label="Bizkaibus web ofiziala / Web oficial de Bizkaibus">
+          <span className="cab-nav-etiqueta">Web ofiziala</span>
+          <ul className="cab-lista">
+            {ENLACES_OFICIALES.map((enlace) => (
+              <li key={enlace.href}>
+                <a
+                  className="cab-enlace"
+                  href={enlace.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={`${enlace.descripcion} · bizkaia.eus`}
+                  onClick={() => setMenuAbierto(false)}
+                >
+                  {enlace.texto}
+                  <IconoExterno />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
-      <div className={`bipo_navbgcolor ${styles.bipoNavbgcolor}`}></div>
     </header>
   );
 }
