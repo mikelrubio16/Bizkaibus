@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import L from "leaflet";
 import "leaflet-gpx";
 import "leaflet/dist/leaflet.css";
@@ -8,13 +8,11 @@ export const Autobuses = () => {
 
     const [ mostrarBuses2, setMostrarBuses2 ] = useState({});
     const [ gpxLayer, setGPXLayer ] = useState();
-    const mapRef = useRef(null); // Almacena la referencia al mapa
     const [ map, setMap ] = useState();
     const [ gpxData, setGPXData ] = useState();
     const [ busMarkers, setBusMarkers] = useState([]);
     const [selectedLinea, setSelectedLinea] = useState("A3527I");
     const [selectedStop, setSelectedStop] = useState(null);
-    const [ trackPoints, setTrackPoints ] = useState([]);
 
      // Declara las variables de estado para los marcadores
     const [startMarkerLayer, setStartMarkerLayer] = useState(null);
@@ -36,15 +34,10 @@ export const Autobuses = () => {
     };
 
     // Inicializar el mapa en un useEffect separado
+    // Se crea una sola vez; el cleanup elimina el mapa al desmontar el componente
     useEffect(() => {
-        // Verifica si el mapa ya está inicializado
-        if (mapRef.current !== null && mapRef.current !== undefined) {
-            mapRef.current.remove(); // Elimina el mapa anterior antes de crear uno nuevo
-        } 
-
         const mapInstance = L.map("map").setView([43.339729874493635, -2.84893739978817], 10); // Coordenadas iniciales
         setMap(mapInstance); // Guardar la referencia al mapa
-        mapRef.current = map; // Guarda la referencia al mapa
 
         // Añadir la capa base
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -55,13 +48,16 @@ export const Autobuses = () => {
         return () => {
         mapInstance.remove();
         };
-    }, [startIcon, endIcon]);
+    }, []);
 
      // Usamos useEffect para llamar a getBuses cuando selectedStop cambia
     useEffect(() => {
         if (selectedStop) {
             getBuses(); // Llama a getBuses solo cuando selectedStop se actualice
         }
+    // Solo debe ejecutarse al cambiar de parada: getBuses es una función nueva en cada render
+    // y añadirla haría que se llamase a la API en cada render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedStop]); // Dependencia de selectedStop
 
     const handleLineaChange = (event) => {
@@ -158,7 +154,6 @@ export const Autobuses = () => {
                 if (gpxData.porSentido || selectedLinea.endsWith('I')) {
                     finalTrack = track.reverse();
                 }
-                setTrackPoints(finalTrack);
                 //Recorrer los busMarkers (parada y posicion bus) y eliminarlos del mapa               
                 const layersToRemove = Object.values(busMarkers);
                 layersToRemove.forEach(marcadores => {
@@ -207,6 +202,9 @@ export const Autobuses = () => {
             }
             setGPXLayer(aux);
         }
+      // Solo debe ejecutarse al cargar otro GPX o cambiar de línea. Este efecto modifica gpxLayer,
+      // busMarkers y los marcadores de inicio/fin; añadirlos como dependencias lo haría entrar en bucle.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [gpxData, selectedLinea, map]); // Ejecutar este efecto cuando cambien gpxData o selectedLinea
 
     const getBuses = () => {        
