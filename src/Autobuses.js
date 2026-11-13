@@ -138,20 +138,23 @@ export const Autobuses = () => {
             ? { texto, porSentido: true }
             : cargar(`/routes/ruta-` + linea.substring(0, linea.length -1) + `.gpx`).then((t) => ({ texto: t, porSentido: false })))
         .then((gpx) => {
-            if (gpx.texto) setGPXData(gpx);
+            if (gpx.texto) setGPXData({ ...gpx, linea }); // la línea viaja con su GPX
         })
         .catch((error) => console.error("Error loading GPX file:", error));
     };
 
     useEffect(() => {
         if (gpxData && map) {
+            // La carga es asíncrona: si llega otro GPX antes de que termine esta, se ignora para que no pise el track ni el encuadre.
+            let cancelado = false;
             // markers a null: sin los marcadores por defecto de leaflet-gpx (salían como imagen rota); usamos startFlag/endFlag
             const aux = new L.GPX(gpxData.texto, { async: true, markers: { startIcon: null, endIcon: null } }).on("loaded", function (e) {
+                if (cancelado) return;
                 const track = obtenerTrack(e.target);
                 var finalTrack = track;
                 // El track tiene que quedar del final al inicio del recorrido.
                 // GPX propio del sentido: siempre se invierte. GPX compartido (sentido ida): solo en la IDA.
-                if (gpxData.porSentido || selectedLinea.endsWith('I')) {
+                if (gpxData.porSentido || gpxData.linea.endsWith('I')) {
                     finalTrack = track.reverse();
                 }
                 //Recorrer los busMarkers (parada y posicion bus) y eliminarlos del mapa               
@@ -194,18 +197,26 @@ export const Autobuses = () => {
 
 
                 // Añadir el GPX al mapa después de que haya sido cargado
-                aux.addTo(map);                            
+                aux.addTo(map);
+                // Encuadrar el recorrido completo (líneas como la A3613 llegan hasta Orozko, fuera de la vista inicial)
+                // Sin animación: Leaflet ignora un encuadre nuevo mientras hay una animación de zoom en curso
+                map.fitBounds(aux.getBounds(), { padding: [20, 20], animate: false });
             });
             if (gpxLayer) {
                 // Si existe, elimínala del mapa
                 map.removeLayer(gpxLayer);
             }
             setGPXLayer(aux);
+            return () => {
+                cancelado = true;
+                map.removeLayer(aux); // por si ya se había añadido
+            };
         }
-      // Solo debe ejecutarse al cargar otro GPX o cambiar de línea. Este efecto modifica gpxLayer,
+      // Solo debe ejecutarse al cargar otro GPX (que ya lleva su línea): si dependiera también de selectedLinea,
+      // al cambiar de línea se ejecutaría antes con el GPX anterior. Este efecto modifica gpxLayer,
       // busMarkers y los marcadores de inicio/fin; añadirlos como dependencias lo haría entrar en bucle.
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, [gpxData, selectedLinea, map]); // Ejecutar este efecto cuando cambien gpxData o selectedLinea
+      }, [gpxData, map]); // Ejecutar este efecto cuando llegue un GPX nuevo
 
     const getBuses = () => {        
         // Obtener el valor seleccionado del combobox
@@ -414,6 +425,10 @@ export const Autobuses = () => {
                 <option value="A3531I">A3531 · Leioa → Mungia</option>
                 <option value="A3531V">A3531 · Mungia → Leioa</option>
             </optgroup>
+            <optgroup label="A3613 · Bilbao – Ugao-Miraballes – Orozko">
+                <option value="A3613I">A3613 · Bilbao → Orozko</option>
+                <option value="A3613V">A3613 · Orozko → Bilbao</option>
+            </optgroup>
 
         </select>
         <br />
@@ -431,7 +446,7 @@ export const Autobuses = () => {
         <br />
         <button className='boton' type="submit" onClick={ getBuses }>Consultar buses</button>
 
-        <h2>{document.getElementById('paradas')?.options[document.getElementById('paradas').selectedIndex].text}</h2> 
+        <h2>{document.getElementById('paradas')?.options[document.getElementById('paradas').selectedIndex]?.text}</h2>
         <table className='tabla' id="tabla">
             <thead>
                 <tr>
